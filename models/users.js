@@ -5,14 +5,8 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
     name: String,
-    animal: {
-        type: String,
-        enum: ['cat', 'dog', 'turtle', 'snake', 'shark']
-    },
-    shelter: {
-        type: ObjectId,
-        ref: 'User'
-    }
+    password: String,
+    email: String,
 }, {
     timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
 });

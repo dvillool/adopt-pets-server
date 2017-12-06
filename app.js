@@ -4,9 +4,15 @@ const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+
 
 
 //rutes de backend, les que jo faig servir, no les que es mostren pel browser
+const auth = require('./routes/auth');
+
+const animals = require('./routes/animals');
+const profile = require('./routes/profile');
 const index = require('./routes/index');
 const users = require('./routes/users');
 
