@@ -14,9 +14,9 @@ function configurePassport() {
         done(null, user);
     });
 
-    passport.use(new LocalStrategy((username, password, next) => {
+    passport.use(new LocalStrategy((email, password, next) => {
         User.findOne({
-            username
+            email
         }, (err, user) => {
             if (err) {
                 return next(err);
