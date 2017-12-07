@@ -8,25 +8,7 @@ const bcrypt = require('bcrypt');
 const response = require('../helpers/response');
 const User = require('../models/users').User;
 
-router.post('/login', (req, res, next) => {
-    if (req.user) {
-        return response.forbidden();
-    }
-    passport.authenticate('local', (err, user, info) => {
-        if (err) {
-            return next(err);
-        }
-        if (!user) {
-            return response.notFound(req, res);
-        }
-        req.login(user, (err) => {
-            if (err) {
-                return next(err);
-            }
-            return response.data(req, res, req.user);
-        });
-    })(req, res, next);
-});
+/*__________SIGN UP____________*/
 
 router.post('/signup', (req, res, next) => {
     if (req.user) {
@@ -75,6 +57,30 @@ router.post('/signup', (req, res, next) => {
         });
     });
 });
+
+/*_________LOGIN____________*/
+
+router.post('/login', (req, res, next) => {
+    if (req.user) {
+        return response.forbidden();
+    }
+    passport.authenticate('local', (err, user, info) => {
+        if (err) {
+            return next(err);
+        }
+        if (!user) {
+            return response.notFound(req, res);
+        }
+        req.login(user, (err) => {
+            if (err) {
+                return next(err);
+            }
+            return response.data(req, res, req.user);
+        });
+    })(req, res, next);
+});
+
+/*____________LOGOUT___________*/
 
 router.post('/logout', (req, res) => {
     req.logout();
