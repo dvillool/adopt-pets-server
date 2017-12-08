@@ -18,6 +18,6 @@ const animalSchema = new Schema({
     timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
 });
 
-const User = mongoose.model('Animal', animalSchema);
+const Animal = mongoose.model('Animal', animalSchema);
 
-module.exports = User;
+module.exports = Animal;

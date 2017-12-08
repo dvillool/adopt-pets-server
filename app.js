@@ -5,16 +5,43 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const response = require('./helpers/response');
+const configurePassport = require('./helpers/passport');
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 
 
 
 //rutes de backend, les que jo faig servir, no les que es mostren pel browser
 const auth = require('./routes/auth');
-const animals = require('./routes/animal');
+const animal = require('./routes/animal');
 const profile = require('./routes/profile');
 const index = require('./routes/index');
 
 const app = express();
+
+// db
+
+mongoose.Promise = Promise;
+mongoose.connect('mongodb://localhost/adoptPets', {
+    keepAlive: true,
+    reconnectTries: Number.MAX_VALUE,
+    useMongoClient: true
+});
+
+// session
+
+app.use(session({
+    store: new MongoStore({
+        mongooseConnection: mongoose.connection,
+        ttl: 12 * 60 * 60 // 1 day
+    }),
+    secret: 'adoptPets',
+    resave: true,
+    saveUninitialized: true,
+    cookie: {
+        maxAge: 24 * 60 * 60 * 1000
+    }
+}));
 
 const passport = configurePassport();
 app.use(passport.initialize());
@@ -25,6 +52,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// routes
 
 app.use('/', index);
 app.use('/auth', auth);

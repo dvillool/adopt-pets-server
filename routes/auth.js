@@ -6,7 +6,7 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 
 const response = require('../helpers/response');
-const User = require('../models/users').User;
+const User = require('../models/users');
 
 /*__________SIGN UP____________*/
 
