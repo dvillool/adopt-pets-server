@@ -10,7 +10,7 @@ const response = require('./helpers/response');
 
 //rutes de backend, les que jo faig servir, no les que es mostren pel browser
 const auth = require('./routes/auth');
-const animals = require('./routes/animals');
+const animals = require('./routes/animal');
 const profile = require('./routes/profile');
 const index = require('./routes/index');
 
@@ -28,6 +28,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/auth', auth);
+app.use('/animal', animal);
+app.use('/profile', profile);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

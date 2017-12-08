@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const ObjectId = Schema.Types.ObjectId;
 
-const userSchema = new Schema({
+const animalSchema = new Schema({
     name: String,
     animal: {
         type: String,

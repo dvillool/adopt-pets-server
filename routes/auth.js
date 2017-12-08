@@ -87,6 +87,7 @@ router.post('/logout', (req, res) => {
     return response.ok(req, res);
 });
 
+/*____________ME_____________*/
 router.get('/me', (req, res) => {
     if (req.user) {
         return response.data(req, res, req.user.asData());
