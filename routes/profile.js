@@ -38,7 +38,7 @@ router.get('/animal', ensureLogin.ensureLoggedIn(), (req, res, next) => { //anar
     const shelter = req.user._id;
     const promise = Animal.find({ shelter: shelter });
     promise.then((result) => {
-        res.json(result); //torne-m'hi... que hi va aqui?? (donde esta la pelotita???)
+        res.json(result);
     });
     promise.catch((error) => {
         next(error);

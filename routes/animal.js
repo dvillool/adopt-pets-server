@@ -9,7 +9,7 @@ router.get('/:id', function(req, res, next) {
 
     const promise = Animal.findOne({ _id: idAnimal });
     promise.then((result) => {
-        res.json(result); //que coi va entre ()??????
+        res.json(result);
     });
     promise.catch((error) => {
         next(error);
