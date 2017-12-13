@@ -11,12 +11,20 @@ const profile = require('../models/users');
 /*  (amb :id) Per tenir la informacio de shelters o particulars (++++++endavant)
 
 router.get('/:id', function(req, res, next) {
-    res.json({}); //Que coi va aqui? (id de l'user per a que printi??)
+    const userId = req.params.id;
+    const promise = User.find({ userId: userId });
+    promise.then((result) => {
+        res.json({});
+    });
+    promise.catch((error) => {
+        next(error);
+    });
 });
 
 */
 
-router.put('/me', function(req, res, next) { // guardar canvis en profile
+// guardar canvis en profile
+router.put('/me', function(req, res, next) {
     const userId = req.user._id;
     const promise = User.findOne({ _id: userId });
     promise.then((result) => {
@@ -33,8 +41,9 @@ router.put('/me', function(req, res, next) { // guardar canvis en profile
     });
 });
 
-router.get('/animal', ensureLogin.ensureLoggedIn(), (req, res, next) => { //anar a la llista dels meus animals (botó myAnimals)
-    //fer busqueda per iduser en tots els animals creats i tornar [{objetanimal}]
+//anar a la llista dels meus animals (botó myAnimals)
+//fer busqueda per iduser en tots els animals creats i tornar [{objetanimal}]
+router.get('/animal', ensureLogin.ensureLoggedIn(), (req, res, next) => {
     const shelter = req.user._id;
     const promise = Animal.find({ shelter: shelter });
     promise.then((result) => {
@@ -45,7 +54,8 @@ router.get('/animal', ensureLogin.ensureLoggedIn(), (req, res, next) => { //anar
     });
 });
 
-router.post('/animal', (req, res, next) => { //anar a la pagina per afegir o crear un animal de shelter
+//anar a la pagina per afegir o crear un animal de shelter
+router.post('/animal', (req, res, next) => {
     const animal = req.body.type;
     const name = req.body.name;
 
@@ -63,7 +73,8 @@ router.post('/animal', (req, res, next) => { //anar a la pagina per afegir o cre
     });
 });
 
-router.put('/animal/:id', function(req, res, next) { //modificar animal
+//modificar animal
+router.put('/animal/:id', function(req, res, next) {
     const animalId = req.params.id;
     const promise = Animal.findOne({ _id: animalId });
     promise.then((result) => {
@@ -80,7 +91,8 @@ router.put('/animal/:id', function(req, res, next) { //modificar animal
     });
 });
 
-router.delete('/animal/:id', function(req, res, next) { //borrar animal
+//borrar animal
+router.delete('/animal/:id', function(req, res, next) {
     Animal.findOneAndRemove({ _id: req.params.id }, (err, result) => {
         if (err) {
             return next(err);

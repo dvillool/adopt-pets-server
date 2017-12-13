@@ -12,9 +12,12 @@ const User = require('../models/users');
 
 router.post('/signup', (req, res, next) => {
     if (req.user) {
-        return response.forbidden();
+        return response.forbidden(req, res);
     }
     const {
+        name,
+        surname,
+        username,
         email,
         password
     } = req.body;
@@ -40,6 +43,9 @@ router.post('/signup', (req, res, next) => {
         const hashPass = bcrypt.hashSync(password, salt);
 
         const newUser = User({
+            name,
+            surname,
+            username,
             email,
             password: hashPass
         });
@@ -52,7 +58,7 @@ router.post('/signup', (req, res, next) => {
                 if (err) {
                     return next(err);
                 }
-                return response.data(req, res, newUser.asData());
+                return response.data(req, res, newUser);
             });
         });
     });
@@ -62,7 +68,7 @@ router.post('/signup', (req, res, next) => {
 
 router.post('/login', (req, res, next) => {
     if (req.user) {
-        return response.forbidden();
+        return response.forbidden(req, res);
     }
     passport.authenticate('local', (err, user, info) => {
         if (err) {
@@ -90,7 +96,7 @@ router.post('/logout', (req, res) => {
 /*____________ME_____________*/
 router.get('/me', (req, res) => {
     if (req.user) {
-        return response.data(req, res, req.user.asData());
+        return response.data(req, res, req.user);
     }
 
     return response.notFound(req, res);

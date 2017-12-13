@@ -4,6 +4,7 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const response = require('./helpers/response');
 const configurePassport = require('./helpers/passport');
 const session = require('express-session');
@@ -27,6 +28,13 @@ mongoose.connect('mongodb://localhost/adoptPets', {
     reconnectTries: Number.MAX_VALUE,
     useMongoClient: true
 });
+
+
+// cors para control de acceso
+app.use(cors({
+    credentials: true,
+    origin: ['http://localhost:4200']
+}));
 
 // session
 

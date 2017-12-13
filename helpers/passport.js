@@ -24,9 +24,9 @@ function configurePassport() {
                 return next(err);
             }
 
-            if (!email) {
+            if (!user) {
                 return next(null, false, {
-                    message: 'Incorrect email'
+                    message: 'Unknown email'
                 });
             }
 
