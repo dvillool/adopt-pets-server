@@ -5,35 +5,23 @@ const ensureLogin = require('connect-ensure-login');
 const express = require('express');
 const router = express.Router();
 
-const profile = require('../models/users');
-
-
-/*  (amb :id) Per tenir la informacio de shelters o particulars (++++++endavant)
-
-router.get('/:id', function(req, res, next) {
-    const userId = req.params.id;
-    const promise = User.find({ userId: userId });
-    promise.then((result) => {
-        res.json({});
-    });
-    promise.catch((error) => {
-        next(error);
-    });
-});
-
-*/
+const User = require('../models/users');
+const Animal = require('../models/animals');
 
 // guardar canvis en profile
 router.put('/me', function(req, res, next) {
     const userId = req.user._id;
     const promise = User.findOne({ _id: userId });
-    promise.then((result) => {
-        result.name = req.body.name;
-        result.email = req.body.email;
-        result.save((error, result) => {
+    promise.then((user) => {
+        user.name = req.body.name;
+        user.email = req.body.email;
+        user.save((error, user) => {
             if (error) {
                 return next(error);
             }
+            req.login(user, () => {
+                res.json(user);
+            });
         });
     });
     promise.catch((error) => {
@@ -54,15 +42,23 @@ router.get('/animal', ensureLogin.ensureLoggedIn(), (req, res, next) => {
     });
 });
 
-//anar a la pagina per afegir o crear un animal de shelter
+//crear un animal de shelter
 router.post('/animal', (req, res, next) => {
-    const animal = req.body.type;
+    const type = req.body.type;
     const name = req.body.name;
+    const description = req.body.description;
+    const urgent = req.body.urgent;
+    const adopt = req.body.adopt;
+    const donate = req.body.donate;
 
     const newAnimal = new Animal({
         name: name,
-        animal: animal,
-        shelter: req.user._id
+        type: type,
+        shelter: req.user._id,
+        description: description,
+        urgent: urgent,
+        adopt: adopt,
+        donate: donate
     });
 
     newAnimal.save((err, result) => {

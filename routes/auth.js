@@ -16,8 +16,6 @@ router.post('/signup', (req, res, next) => {
     }
     const {
         name,
-        surname,
-        username,
         email,
         password
     } = req.body;
@@ -44,8 +42,6 @@ router.post('/signup', (req, res, next) => {
 
         const newUser = User({
             name,
-            surname,
-            username,
             email,
             password: hashPass
         });
@@ -75,7 +71,7 @@ router.post('/login', (req, res, next) => {
             return next(err);
         }
         if (!user) {
-            return response.notFound(req, res);
+            return response.notFound(req, res, "Unknown email");
         }
         req.login(user, (err) => {
             if (err) {

@@ -6,14 +6,25 @@ const ObjectId = Schema.Types.ObjectId;
 
 const animalSchema = new Schema({
     name: String,
-    animal: {
+    photos: String,
+    description: String,
+    type: {
         type: String,
-        enum: ['cat', 'dog', 'turtle', 'snake', 'shark']
+        enum: ['cat', 'dog', 'turtle', 'snake', 'cow', 'sheep', 'hen', 'donkey', 'wolf']
+    },
+    info: {
+        Age: Number,
+        sex: String,
+        microxip: Boolean,
+        steril: Boolean,
     },
     shelter: {
         type: ObjectId,
         ref: 'User'
-    }
+    },
+    urgent: Boolean,
+    adopt: Boolean,
+    donate: Boolean
 }, {
     timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
 });
