@@ -24,7 +24,7 @@ const app = express();
 // db
 
 mongoose.Promise = Promise;
-mongoose.connect('mongodb://localhost/adoptPets', {
+mongoose.connect(process.env.MONGODB_URI, {
     keepAlive: true,
     reconnectTries: Number.MAX_VALUE,
     useMongoClient: true
